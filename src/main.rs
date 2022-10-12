@@ -33,17 +33,23 @@ fn get_price(coin: &str) -> Result<String, ureq::Error> {
 }
 
 fn main() {
-    let mut coin = String::new();
-    println!("Enter coin name: ");
+    loop {
+        let mut coin = String::new();
+        println!("Enter coin name: ");
 
-    let _ = std::io::stdin()
-        .read_line(&mut coin)
-        .expect("An error occurred");
+        let _ = std::io::stdin()
+            .read_line(&mut coin)
+            .expect("An error occurred");
 
-    let result_price = get_price(&coin);
+        let result_price = get_price(&coin);
 
-    match result_price {
-        Ok(price) => println!("The price of {} is {} USD", coin, price),
-        Err(e) => println!("Error: {}", e),
+        if coin.trim() == "exit" {
+            break;
+        }
+
+        match result_price {
+            Ok(price) => println!("The price of {} is {} USD", coin, price),
+            Err(e) => println!("Error: {}", e),
+        }
     }
 }
